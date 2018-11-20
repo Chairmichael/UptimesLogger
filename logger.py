@@ -27,11 +27,10 @@ def main():
             p[1] = p[1].replace('\\'*4,'\\')
             p[1] = p[1].replace('.EXE','.exe')
     # Remove dublicate/similar processes, ie: steamwebhelper.exe = steam.exe
-    for i, p in enumerate(process_list):
-        if p in unique_processes:
-            del process_list[i]
-        else:
-            unique_processes.append(p)
+    for p in process_list:
+        ammount = process_list.count(p)
+        if ammount > 1:
+            for i in range(ammount-1): process_list.remove(p)
 
     for x in process_list:
         print(x)
