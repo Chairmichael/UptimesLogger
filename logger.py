@@ -19,23 +19,22 @@ def main():
     # Clean up strings
     for i, p in enumerate(process_list):
         # print(p)
-        if len(p) > 0:
+        if len(p) == 0:
             process_list.pop(i)
-        if not p[0].lower().endswith('.exe'):
+        elif not p[0].lower().endswith('.exe'):
             process_list.pop(i)
         elif len(p) > 1:
             p[1] = p[1].replace('\\'*4,'\\')
             p[1] = p[1].replace('.EXE','.exe')
     # Remove dublicate/similar processes, ie: steamwebhelper.exe = steam.exe
-    l = []
-    for i, x in enumerate(process_list):
-        print(x)
-        if x[0] in l: process_list.pop(i)
-        else: l.append(x[0])
+    for i, p in enumerate(process_list):
+        if p in unique_processes:
+            del process_list[i]
+        else:
+            unique_processes.append(p)
 
-            
-    # for x in process_list:
-    #     print(x)
+    for x in process_list:
+        print(x)
     with open('process_list.txt', 'w') as file:
         for x in process_list:
             file.write(str(x) + '\n')
