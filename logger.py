@@ -3,7 +3,7 @@
 
 import subprocess
 
-def main():
+def get_processes():
     processes = subprocess.run(
         'wmic process get description,executablepath'.split(' '), 
         stdout=subprocess.PIPE)
@@ -34,9 +34,24 @@ def main():
 
     for x in process_list:
         print(x)
-    with open('process_list.txt', 'w') as file:
-        for x in process_list:
-            file.write(str(x) + '\n')
+    print('')
+    # with open('process_list.txt', 'w') as file:
+    #     for x in process_list:
+    #         file.write(str(x) + '\n')
+    return process_list
+
+
+    
+def main():
+    processes = get_processes()
+    sl = '\\'*4
+    steam_dir = 'C:{sl}Program Files (x86){sl}Steam{sl}steamapps{sl}common'
+    running_games = []
+    for p in processes:
+        if len(p) > 1 and p[1] == steam_dir:
+            running_games.append(p)
+    for x in running_games:
+        print(x)
 
 if __name__ == '__main__':
     import os, sys
